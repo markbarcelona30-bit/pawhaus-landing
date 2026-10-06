@@ -69,6 +69,18 @@ window.matchMedia('(max-width:760px)').addEventListener('change', () => closeMen
 
 
 // Duplicate testimonial cards so the vertical marquee loops without a visible reset.
+const storiesSection = document.querySelector('#testimonials');
+const storiesToggle = document.querySelector('.stories-toggle');
+function setStoriesPaused(value) {
+  storiesSection.classList.toggle('stories-paused', value);
+  storiesToggle.setAttribute('aria-pressed', String(value));
+  storiesToggle.querySelector('.stories-toggle-icon').textContent = value ? '▷' : 'Ⅱ';
+  storiesToggle.querySelector('.stories-toggle-label').textContent = value ? 'Play the stories' : 'Pause & read all stories';
+}
+storiesToggle.addEventListener('click', () => setStoriesPaused(storiesToggle.getAttribute('aria-pressed') !== 'true'));
+setStoriesPaused(reducedMotion.matches);
+reducedMotion.addEventListener('change', event => setStoriesPaused(event.matches));
+
 document.querySelectorAll('.testimonial-track').forEach(track => {
   [...track.children].forEach(card => {
     const copy = card.cloneNode(true);

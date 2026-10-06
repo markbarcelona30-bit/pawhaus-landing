@@ -1,0 +1,7 @@
+const fs=require('fs');
+const files=['public/index.html','public/sections.html','src/css/styles.css','src/css/sections.css','README.md'];
+files.forEach(f=>{
+  const c=fs.readFileSync(f,'utf8');
+  const nc=c.replace(/Pawhaus/g,'Pawhaus');
+  if(nc!==c){ fs.writeFileSync(f,nc); console.log('updated',f); }
+});
