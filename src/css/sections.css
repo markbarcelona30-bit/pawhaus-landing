@@ -35,10 +35,11 @@ html{scroll-behavior:smooth;scroll-padding-top:28px}[hidden]{display:none!import
 /* Guest notes */
 @media(max-width:760px){
   .testimonial-copy{display:none}
-  .site-footer{gap:24px}
-  .site-footer nav{width:100%;gap:8px 20px}
+  .site-footer{gap:24px;justify-content:center;text-align:center}
+  .site-footer>div:first-child{width:100%;align-items:center}
+  .site-footer nav{width:100%;gap:8px 20px;justify-content:center}
   .site-footer nav a{display:inline-flex;align-items:center;min-height:44px}
-  .footer-bottom{font-size:11px;line-height:1.7}
+  .footer-bottom{font-size:11px;line-height:1.7;align-items:center}
   .room-bottom button{min-height:44px}
 }
 .testimonials-section{overflow:hidden;border-top:1px solid #293f491a}
