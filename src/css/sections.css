@@ -33,6 +33,13 @@ html{scroll-behavior:smooth;scroll-padding-top:28px}[hidden]{display:none!import
 @media(max-width:760px){.pawhaus-philosophy{padding:64px 0 72px}.philosophy-heart{width:62px;height:62px;margin-bottom:22px}.philosophy-heart svg{width:34px;height:34px}.pawhaus-philosophy h2{font-size:clamp(30px,7.2vw,44px);letter-spacing:-1.3px;margin-bottom:24px}.pawhaus-philosophy h2 br{display:none}.pawhaus-philosophy p{font-size:15px;margin-bottom:22px}.pawhaus-philosophy>strong{font-size:18px}}
 
 /* Guest notes */
+.section-title-icon{display:none}
+@media(max-width:760px){
+  .section-title{text-align:center}
+  .section-title-icon{display:grid;place-items:center;width:48px;height:48px;margin:0 auto 18px;border-radius:50%;background:#e4eef1;color:var(--ink)}
+  .section-title-icon svg{width:26px;height:26px}
+  .booking-intro .section-title-icon{background:#f4d879}
+}
 @media(max-width:760px){
   .testimonial-copy{display:none}
   .site-footer{gap:24px;justify-content:center;text-align:center}
