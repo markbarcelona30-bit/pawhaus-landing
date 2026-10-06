@@ -5,4 +5,37 @@
 .staff-brand .staff-logo{width:160px;height:96px;overflow:hidden}
 .staff-logo img{display:block;width:160px;height:160px;max-width:none;transform:translateY(-24px);filter:url(#staff-logo-ink)}
 .staff-brand>span:last-child{margin-top:10px}
+.login-brand{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.login-brand .staff-logo{width:180px;height:108px;overflow:hidden}
+.login-brand .staff-logo img{width:180px;height:180px;transform:translateY(-27px)}
+.login-brand>span:last-child{margin-top:10px}
+.action-icon{width:20px;height:20px;flex-shrink:0;vertical-align:middle}
+.login-panel .primary{position:relative;padding-inline:52px}
+.login-panel .primary .action-icon{position:absolute;right:24px;top:50%;transform:translateY(-50%)}
+.back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.back-link span{text-decoration:underline;text-underline-offset:3px}
 @media(max-width:760px){.sidebar .staff-brand{margin-bottom:24px}}
+
+/* A centered brand introduction and a distinct, comfortable sign-in card. */
+.login-panel label{margin:20px 0 7px}
+.login-field{position:relative}
+.login-field input{margin:0;padding-left:44px}
+.password-field input{padding-right:52px}
+.field-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:19px;height:19px;color:var(--muted);pointer-events:none}
+.password-toggle{position:absolute;right:3px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:44px;height:40px;padding:0;border:0;border-radius:7px;background:transparent;color:var(--muted)}
+.password-toggle:hover{background:#293f490a;color:var(--ink)}
+.password-toggle svg{width:21px;height:21px}
+.login-screen{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
+.login-story{align-self:stretch;align-items:center;justify-content:center;gap:32px;padding:48px 32px;text-align:center}
+.login-story>div{width:100%;max-width:460px}
+.login-story h1{font-size:clamp(40px,4.8vw,68px)}
+.login-story p{margin:20px auto 0}
+.login-story>.local-pill{margin:0}
+.login-panel{width:calc(100% - 64px);max-width:520px;justify-self:center;margin:40px 0;padding:36px;background:var(--white);border:1px solid var(--line);border-radius:24px;box-shadow:0 16px 48px #293f4910}
+.login-panel h2{margin:20px 0 14px}
+.login-panel .helper{margin-top:24px}
+@media(max-width:760px){
+  .login-screen{grid-template-columns:minmax(0,1fr);padding-bottom:24px}
+  .login-story{padding:28px 20px;gap:0}
+  .login-panel{width:calc(100% - 32px);margin:24px 0 0;padding:28px 24px;border-radius:20px}
+}
