@@ -39,3 +39,5 @@
   .login-story{padding:28px 20px;gap:0}
   .login-panel{width:calc(100% - 32px);margin:24px 0 0;padding:28px 24px;border-radius:20px}
 }
+
+.room-date-toolbar label:first-child{flex:0 1 260px}.upcoming-reservations{display:block;margin-top:8px;color:var(--muted)}
