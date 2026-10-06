@@ -39,9 +39,13 @@ function roomCards(){
 }
 function arrivalsView(){
   const ordered=(rows,key)=>rows.sort((a,b)=>a[key].localeCompare(b[key]));
+  const futureDepartures=ordered(bookings.filter(b=>b.status==='CHECKED_IN'&&b.checkOut>today),'checkOut');
+  const nextDeparture=futureDepartures[0]?.checkOut;
+  const nextDepartureCount=futureDepartures.filter(b=>b.checkOut===nextDeparture).length;
+  const departureEmpty=nextDeparture?`No checked-in guests are due to leave today. Next departure: ${date(nextDeparture)} · ${nextDepartureCount} checked-in ${nextDepartureCount===1?'stay':'stays'}.`:'No checked-in guests are due to leave today.';
   const section=(title,note,rows,message)=>`<div class="card"><h2>${title}</h2><p class="helper">${note}</p>${rows.length?table(rows):empty(message)}</div>`;
   return section('Arrivals due today',`Arrival date ${date(today)} or earlier · confirmed and awaiting check-in`,ordered(bookings.filter(b=>b.status==='CONFIRMED'&&b.checkIn<=today),'checkIn'),'No confirmed guests are due to check in today.')
-    +section('Departures due today',`Departure date ${date(today)} or earlier · currently checked in`,ordered(bookings.filter(b=>b.status==='CHECKED_IN'&&b.checkOut<=today),'checkOut'),'No checked-in guests are due to leave today.')
+    +section('Departures due today',`Departure date ${date(today)} or earlier · currently checked in`,ordered(bookings.filter(b=>b.status==='CHECKED_IN'&&b.checkOut<=today),'checkOut'),departureEmpty)
     +section('Upcoming arrivals','Confirmed stays with a future arrival date. Check-in opens on the arrival date.',ordered(bookings.filter(b=>b.status==='CONFIRMED'&&b.checkIn>today),'checkIn'),'No upcoming confirmed arrivals.')
     +section('Upcoming departures','Planned departures for confirmed stays and guests currently checked in.',ordered(bookings.filter(b=>['CONFIRMED','CHECKED_IN'].includes(b.status)&&b.checkOut>today),'checkOut'),'No upcoming departures.');
 }

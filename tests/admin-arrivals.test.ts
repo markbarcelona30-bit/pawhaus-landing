@@ -21,4 +21,11 @@ test('check-in workspace shows future confirmed bookings separately from due arr
   assert.match(sections[3],/Future dog/);assert.match(sections[3],/Check-in opens on the arrival date/);
   assert.match(sections[4],/Future dog/);
   assert.doesNotMatch(html,/Cancelled dog|Pending dog/);
+  runInContext("bookings=bookings.filter(b=>b.id!=='out');bookings.push({id:'in',dogName:'Current guest',status:'CHECKED_IN',checkIn:'2026-10-06',checkOut:'2026-10-07',room:'cozy',total:1200});",context);
+  const emptyDepartures=String(runInContext('arrivalsView()',context)).split('<div class="card">')[2];
+  assert.match(emptyDepartures,/Next departure: 7 Oct 2026 · 1 checked-in stay/);
+  runInContext("today='2026-10-07'",context);
+  const dueDepartures=String(runInContext('arrivalsView()',context)).split('<div class="card">')[2];
+  assert.match(dueDepartures,/Current guest/);
+  assert.doesNotMatch(dueDepartures,/Next departure/);
 });
