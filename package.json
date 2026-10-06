@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "build": "node scripts/build.mjs",
     "dev": "node src/server.mjs",
     "start": "node src/server.mjs",
     "check": "node --check src/server.mjs && node --check src/js/app.js && node --check src/js/booking.js"
