@@ -2,6 +2,14 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "buildCommand": "npm run build",
+  "installCommand": "npm ci --include=dev",
   "outputDirectory": "dist",
-  "rewrites": [{ "source": "/public/index.html", "destination": "/index.html" }]
+  "fluid": true,
+  "regions": ["sin1"],
+  "functions": { "api/index.ts": { "maxDuration": 30 } },
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api?__pawhaus_route=:path*" },
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/public/index.html", "destination": "/index.html" }
+  ]
 }

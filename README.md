@@ -55,9 +55,9 @@ Starter inventory is 4 Cozy Nooks, 3 Sunny Suites, and 2 Garden Hangouts; rates 
 
 ## Local versus Vercel
 
-**This backend is local-first, as requested.** `npm run build` continues producing the static landing page in `dist/`. No SQLite API is deployed to Vercel. On the static site, booking remains explicitly a demo; the staff sign-in requires the local API. Locally, successful `/api/config` detection switches the form to saved requests.
+The public website and staff portal are deployed at https://pawhaus-hotel.vercel.app and https://pawhaus-hotel.vercel.app/admin. Static assets come from `dist`; `api/index.ts` hosts the booking API on Vercel Node 24 in Singapore. The production DATABASE_URL is a sensitive server-only Vercel variable. Preview deployments require their own database configuration.
 
-Neon is connected locally using PostgreSQL 17 in Singapore. Database credentials are in the ignored `.env` file. `npm run db:migrate` initializes the PostgreSQL schema through the direct connection; `npm run db:import-local` transfers staff/bookings to an empty target without changing SQLite. The existing admin account is preserved, but staff must sign in again. See `docs/backend.md` for branches, integration tests and the remaining Vercel API deployment work.
+Neon PostgreSQL is used locally and in production, with separate databases on the same branch/compute. `.env` holds local connections; ignored `.env.production.local` holds the production runtime connection and migration owner connection. Neither file is committed or uploaded. Existing staff accounts were preserved. See `docs/backend.md` for migration commands, roles and verification.
 
 Payments, emails/SMS, customer accounts, editable inventory, rescheduling, services/daycare/grooming, CMS, and advanced staff/reporting features remain later phases. The public property imagery and testimonials are illustrative concept content.
 

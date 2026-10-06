@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=24.15.0"
+    "node": ">=24.15.0 <25"
   },
   "scripts": {
     "build": "node scripts/build.mjs",
@@ -17,12 +17,14 @@
     "db:import-local": "node scripts/db-import-local.ts"
   },
   "dependencies": {
+    "@vercel/functions": "^3.9.11",
     "pg": "^8.23.1",
     "three": "^0.180.0"
   },
   "devDependencies": {
     "@types/node": "^26.6.4",
     "@types/pg": "^8.23.1",
+    "@types/ws": "^8.18.2",
     "typescript": "^7.0.2"
   }
 }

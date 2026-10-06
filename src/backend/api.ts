@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Repository } from './repository.ts';
 import { Problem, rooms, businessToday } from './domain.ts';
-export function api(store: Repository) {
+export function api(store: Repository, options: { trustedProxy?: boolean } = {}) {
   return async (req: IncomingMessage, res: ServerResponse) => {
     const send = (status: number, value: unknown) => { res.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }); res.end(JSON.stringify(value)); };
     const token = /(?:^|;\s*)pawhaus_session=([a-f0-9]{64})(?:;|$)/.exec(req.headers.cookie ?? '')?.[1] ?? '';
@@ -16,18 +16,22 @@ export function api(store: Repository) {
       if (method !== 'GET') {
         if (!req.headers['content-type']?.startsWith('application/json')) throw new Problem('JSON content is required.', 415);
         let body = '';
-        for await (const chunk of req) { body += chunk.toString(); if (Buffer.byteLength(body) > 16384) throw new Problem('Request is too large.', 413); }
+        // Vercel supplies a parsed body; the local Node server supplies a stream.
+        const parsedBody = (req as IncomingMessage & { body?: unknown }).body;
+        if (parsedBody !== undefined) body = typeof parsedBody === 'string' ? parsedBody : JSON.stringify(parsedBody);
+        else for await (const chunk of req) { body += chunk.toString(); if (Buffer.byteLength(body) > 16384) throw new Problem('Request is too large.', 413); }
+        if (Buffer.byteLength(body) > 16384) throw new Problem('Request is too large.', 413);
         try { const parsed: unknown = JSON.parse(body); if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error(); data = parsed as Record<string, unknown>; } catch { throw new Problem('Invalid JSON request.'); }
       }
       if (url.pathname === '/api/config' && method === 'GET') { send(200, { mode: store.mode ?? 'local', rooms, today: businessToday() }); return; }
       if (url.pathname === '/api/availability' && method === 'GET') { send(200, { rooms: await store.availability(url.searchParams.get('checkIn') ?? '', url.searchParams.get('checkOut') ?? '', Number(url.searchParams.get('guests'))) }); return; }
       if (url.pathname === '/api/bookings' && method === 'POST') {
-        await store.limit(`booking:${req.socket.remoteAddress}`, 20, 3600000);
+        await store.limit(`booking:${clientAddress(req, options.trustedProxy)}`, 20, 3600000);
         const booking = await store.create(data, String(req.headers['idempotency-key'] ?? ''));
         send(201, { reference: booking.reference, status: booking.status, total: booking.total, nights: booking.nights }); return;
       }
       if (url.pathname === '/api/auth/login' && method === 'POST') {
-        await store.limit(`login:${req.socket.remoteAddress}`, 10, 900000);
+        await store.limit(`login:${clientAddress(req, options.trustedProxy)}`, 10, 900000);
         if (typeof data.email !== 'string' || data.email.length > 120 || typeof data.password !== 'string' || data.password.length > 200) throw new Problem('Enter your email and password.');
         const result = await store.login(data.email, data.password); cookie(result.token, 8 * 3600); send(200, { staff: result.staff }); return;
       }
@@ -45,4 +49,12 @@ export function api(store: Repository) {
       else { console.error('Booking API failed:', error instanceof Error ? error.name : 'Unknown error'); send(500, { error: 'Something went wrong. Please try again.' }); }
     }
   };
+}
+function clientAddress(req: IncomingMessage, trustedProxy = false) {
+  // Only the Vercel adapter trusts its platform-overwritten client IP header.
+  if (trustedProxy) {
+    const ip = req.headers['x-vercel-forwarded-for'];
+    if (typeof ip === 'string') return ip.split(',')[0].trim();
+  }
+  return req.socket.remoteAddress ?? 'unknown';
 }

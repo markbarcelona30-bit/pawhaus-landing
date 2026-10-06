@@ -40,7 +40,7 @@ The local database, session tokens, generated credential files, server logs, and
 
 ## Neon database
 
-The configured project is Pawhaus (`frosty-glitter-18857852`), PostgreSQL 17 in AWS Singapore. The local application uses the `local` branch and `pawhaus_local` database. The separate `pawhaus_test` database contains only fictional integration test data. The `production` branch is reserved for deployment; it has not been connected to Vercel. The initial `development` branch is unused.
+The configured project is Pawhaus (`frosty-glitter-18857852`), PostgreSQL 17 in AWS Singapore. The local application uses the `local` branch and `pawhaus_local` database. The separate `pawhaus_test` database contains only fictional integration test data. Vercel uses the separate `pawhaus_production` database on the same `local` branch/compute; runtime permissions are restricted to the booking schema. The `production` branch remains unused. The initial `development` branch is unused.
 
 Copy `.env.example` to `.env` for another checkout and supply a pooled `DATABASE_URL` and direct `DATABASE_URL_UNPOOLED` from Neon. Credentials must stay in ignored environment files or server environment variables. TLS verifies the server certificate. `npm run db:migrate` applies `migrations/003-neon.sql` transactionally over the direct connection. `npm run db:import-local` imports staff hashes, bookings and audit records into an empty target while preserving SQLite. It does not transfer existing sessions; sign in again.
 
@@ -48,8 +48,12 @@ The PostgreSQL adapter locks the room inventory row before measuring occupancy a
 
 `npm test` runs the offline tests. To run `tests/postgres.test.ts`, set TEST_DATABASE_URL to a dedicated database whose name ends in `_test`, then run `node --test tests/postgres.test.ts`. This suite applies the schema, verifies concurrent capacity, retry protection, staff login/logout, authorization, version conflicts, cancellation and persistence, and removes its fictional staff/bookings. Never point it at the live booking database.
 
-Production requires API hosting as well as the database. The current Vercel deployment is static: add server API functions and server-side environment variables before enabling saved requests there. Production startup refuses to fall back to SQLite when DATABASE_URL is absent. Set actual inventory and rates before taking real guests; payments, emails and password recovery remain separate work. The older Supabase migration is retained as a historical alternative and is not used by this adapter.
+Vercel now serves the same API through `api/index.ts`. Rewrites preserve API paths and query parameters, and the static landing page/admin assets remain in `dist`. The function runs in Singapore on Node 24 with Fluid Compute and managed idle database connections. Vercel stores only the runtime DATABASE_URL as a sensitive production variable; the migration owner connection stays in ignored `.env.production.local`. Preview deployments do not receive production credentials and return 503 until configured separately. Production startup refuses to fall back to SQLite when DATABASE_URL is absent. Set actual inventory and rates before taking real guests; payments, emails and password recovery remain separate work. The older Supabase migration is retained as a historical alternative and is not used by this adapter.
 
 ## Scope after this slice
 
 The plan's customer portal, payments/refunds, notifications, CMS, grooming/daycare service scheduling, room maintenance, rescheduling, and advanced reports remain future work. The implemented portal intentionally exposes only functioning features.
+
+## Production operations
+
+The public site is https://pawhaus-hotel.vercel.app and staff access is /admin. The existing staff login is preserved; sessions are separate from local development. Run migrations or create staff against production with Node's --env-file=.env.production.local option, for example: node --env-file=.env.production.local scripts/db-migrate.ts. Keep this file private. Database setup and the full deployed HTTP workflow were verified with a fictional booking; that record was removed after cancellation. CLI deployments can be verified with vercel curl without disabling deployment protection. Future Git deployments must retain the API entry point, rewrites and server-only environment configuration.
