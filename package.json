@@ -1,0 +1,13 @@
+{
+  "name": "pawhaus-hero",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node src/server.mjs",
+    "start": "node src/server.mjs",
+    "check": "node --check src/server.mjs && node --check src/js/app.js && node --check src/js/booking.js"
+  },
+  "dependencies": {
+    "three": "^0.180.0"
+  }
+}
