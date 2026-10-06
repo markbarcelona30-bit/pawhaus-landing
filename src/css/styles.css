@@ -23,12 +23,16 @@
   .menu-toggle svg{width:22px;height:22px}
   .navigation{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);position:sticky;top:0;z-index:50;background:rgba(248,246,239,.78);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:0 8px 24px #293f4908}
   html{scroll-padding-top:120px}
+  /* Share the same gutter so the sticky glass spans the full phone width. */
+  .page{--mobile-gutter:6vw;padding-inline:var(--mobile-gutter)}
+  .navigation{margin-inline:calc(-1 * var(--mobile-gutter));padding-left:max(var(--mobile-gutter),env(safe-area-inset-left));padding-right:max(var(--mobile-gutter),env(safe-area-inset-right))}
   .section{scroll-margin-top:20px}
   .navigation>.brand{grid-column:2;grid-row:1;justify-self:center}
   .navigation>.menu-toggle{grid-column:1;grid-row:1;justify-self:start;margin-left:0}
   .navigation>.nav-book{grid-column:3;grid-row:1;justify-self:end;margin-left:0;min-height:44px;padding:11px 10px;gap:7px;font-size:11px}
   .mobile-menu{position:absolute;left:0;right:0;top:calc(100% + 8px);display:flex;flex-direction:column;gap:4px;padding:14px;background:var(--ivory);border:1px solid #293f4926;border-radius:18px;box-shadow:0 16px 35px #293f491a}
   .mobile-menu a{padding:13px 14px;border-radius:10px;font-size:15px;min-height:46px}
+  .mobile-menu{left:max(16px,6vw,env(safe-area-inset-left));right:max(16px,6vw,env(safe-area-inset-right));max-height:calc(100dvh - 116px);overflow-y:auto;overscroll-behavior:contain}
   .mobile-menu a:hover{background:#e7eef0}
   .mobile-menu .mobile-menu-book{background:var(--yellow);display:flex;justify-content:space-between;margin-top:6px;font-weight:600}
   h1{font-size:clamp(29px,7.6vw,57px);letter-spacing:-1.5px;white-space:normal}
