@@ -2,6 +2,22 @@
 
 A responsive dog hotel website and a booking/staff workspace with Neon PostgreSQL and an offline SQLite option. The existing landing page and animations are preserved. The first backend slice follows `PAWHAUS-BUILD-PLAN.md`: requests, availability, server pricing, protected staff access, and controlled booking statuses.
 
+## Screenshots
+
+### Landing page
+
+[Visit Pawhaus](https://pawhaus-hotel.vercel.app/)
+
+![Pawhaus landing page with the welcome committee and booking button](docs/screenshots/landing-page.png)
+
+### Admin portal
+
+The staff workspace includes bookings, a stay calendar, check-in and check-out, guest records, and room inventory. Staff sign-in is required.
+
+[Open the staff portal](https://pawhaus-hotel.vercel.app/admin)
+
+![Pawhaus admin portal showing the staff navigation and room inventory](docs/screenshots/admin-portal.png)
+
 ## Run locally
 
 Requires **Node 24.15 or later** (uses built-in SQLite and TypeScript execution).
