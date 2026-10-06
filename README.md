@@ -2,6 +2,18 @@
 
 A responsive dog hotel website and a booking/staff workspace with Neon PostgreSQL and an offline SQLite option. The existing landing page and animations are preserved. The first backend slice follows `PAWHAUS-BUILD-PLAN.md`: requests, availability, server pricing, protected staff access, and controlled booking statuses.
 
+## Remotion video project
+
+The standalone video workspace is in `pawhaus-video/`, created with `create-video`. To open Remotion Studio:
+
+```sh
+cd pawhaus-video
+npm install
+npm run dev
+```
+
+Run `npm run lint` to check the project and `npm run build` to bundle it. Video workspace files are excluded from the website's Vercel deployment.
+
 ## Screenshots
 
 ### Booking and staff walkthrough
