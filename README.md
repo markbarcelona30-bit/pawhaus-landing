@@ -1,6 +1,6 @@
 # Pawhaus
 
-A responsive dog hotel website and a local booking/staff workspace. The existing landing page and animations are preserved. The first backend slice follows `PAWHAUS-BUILD-PLAN.md`: requests, availability, server pricing, protected staff access, and controlled booking statuses.
+A responsive dog hotel website and a booking/staff workspace with Neon PostgreSQL and an offline SQLite option. The existing landing page and animations are preserved. The first backend slice follows `PAWHAUS-BUILD-PLAN.md`: requests, availability, server pricing, protected staff access, and controlled booking statuses.
 
 ## Run locally
 
@@ -13,13 +13,13 @@ npm run dev
 
 - Website: http://localhost:3000
 - Staff portal: http://localhost:3000/admin
-- Persistent database: `.data/pawhaus.sqlite`
+- Database: Neon when `.env` contains DATABASE_URL; otherwise `.data/pawhaus.sqlite`
 
 The server binds to `127.0.0.1` by default. `PORT`, `HOST`, and `PAWHAUS_DB` are optional environment variables. The database is created automatically; it is never served as a website asset. Keep `.data` private and back it up. Stop the server before making a simple file backup so SQLite's WAL transactions are checkpointed.
 
 ## Staff access
 
-Create a local account from the project folder:
+Create an account in the configured database from the project folder:
 
 ```sh
 npm run admin:create -- your-email@example.com
@@ -35,7 +35,7 @@ ADMIN and FRONT_DESK can review and change booking status. CARE_STAFF can read b
 
 - Public form checks each reserved night against room inventory, then saves a PENDING booking with a reference number.
 - Prices are recalculated on the server; client-supplied totals are ignored.
-- SQLite transactions prevent overlapping requests from exceeding room capacity.
+- Database transactions prevent overlapping requests from exceeding room capacity.
 - Retrying a submission with the same request key returns the original booking.
 - The responsive staff portal has an overview, searchable/filterable bookings, monthly calendar, today's check-ins/check-outs, guest records, and room inventory.
 - Details include dog information, contact details, care notes, unpaid totals, and an activity log.
@@ -57,7 +57,7 @@ Starter inventory is 4 Cozy Nooks, 3 Sunny Suites, and 2 Garden Hangouts; rates 
 
 **This backend is local-first, as requested.** `npm run build` continues producing the static landing page in `dist/`. No SQLite API is deployed to Vercel. On the static site, booking remains explicitly a demo; the staff sign-in requires the local API. Locally, successful `/api/config` detection switches the form to saved requests.
 
-Supabase is the next phase. See `docs/backend.md` for the storage/auth migration boundary and `migrations/002-supabase-core.sql` for a production schema foundation. Applying that schema alone does not connect Vercel: the server adapter, authenticated API functions, and production verification still need to be implemented when your Supabase project is ready.
+Neon is connected locally using PostgreSQL 17 in Singapore. Database credentials are in the ignored `.env` file. `npm run db:migrate` initializes the PostgreSQL schema through the direct connection; `npm run db:import-local` transfers staff/bookings to an empty target without changing SQLite. The existing admin account is preserved, but staff must sign in again. See `docs/backend.md` for branches, integration tests and the remaining Vercel API deployment work.
 
 Payments, emails/SMS, customer accounts, editable inventory, rescheduling, services/daycare/grooming, CMS, and advanced staff/reporting features remain later phases. The public property imagery and testimonials are illustrative concept content.
 

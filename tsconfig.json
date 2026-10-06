@@ -8,5 +8,5 @@
     "allowImportingTsExtensions": true,
     "types": ["node"]
   },
-  "include": ["src/backend/**/*.ts", "tests/**/*.ts", "scripts/admin-create.ts"]
+  "include": ["src/backend/**/*.ts", "tests/**/*.ts", "scripts/admin-create.ts", "scripts/db-migrate.ts", "scripts/db-import-local.ts"]
 }

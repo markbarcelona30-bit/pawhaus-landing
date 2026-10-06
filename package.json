@@ -3,20 +3,26 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=24.15.0" },
+  "engines": {
+    "node": ">=24.15.0"
+  },
   "scripts": {
     "build": "node scripts/build.mjs",
     "dev": "node src/server.mjs",
     "start": "node src/server.mjs",
     "check": "tsc && node --check src/server.mjs && node --check src/js/app.js && node --check src/js/booking.js && node --check src/js/admin.js",
     "test": "node --test tests/*.test.ts",
-    "admin:create": "node scripts/admin-create.ts"
+    "admin:create": "node scripts/admin-create.ts",
+    "db:migrate": "node scripts/db-migrate.ts",
+    "db:import-local": "node scripts/db-import-local.ts"
   },
   "dependencies": {
+    "pg": "^8.23.1",
     "three": "^0.180.0"
   },
   "devDependencies": {
     "@types/node": "^26.6.4",
+    "@types/pg": "^8.23.1",
     "typescript": "^7.0.2"
   }
 }

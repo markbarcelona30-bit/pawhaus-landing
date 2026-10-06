@@ -2,13 +2,13 @@ import http from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { Store } from './backend/store.ts';
+import { connectStore } from './backend/connect.ts';
 import { api } from './backend/api.ts';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const publicRoot = resolve(root, 'public');
 const sourceRoot = resolve(root, 'src');
-const store = new Store(process.env.PAWHAUS_DB || resolve(root, '.data/pawhaus.sqlite'));
+const store = await connectStore(root);
 const handleApi = api(store);
 const types = {
   '.html': 'text/html',
