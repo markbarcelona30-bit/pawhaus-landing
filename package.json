@@ -2,13 +2,21 @@
   "name": "pawhaus-hero",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
+  "engines": { "node": ">=24.15.0" },
   "scripts": {
     "build": "node scripts/build.mjs",
     "dev": "node src/server.mjs",
     "start": "node src/server.mjs",
-    "check": "node --check src/server.mjs && node --check src/js/app.js && node --check src/js/booking.js"
+    "check": "tsc && node --check src/server.mjs && node --check src/js/app.js && node --check src/js/booking.js && node --check src/js/admin.js",
+    "test": "node --test tests/*.test.ts",
+    "admin:create": "node scripts/admin-create.ts"
   },
   "dependencies": {
     "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "typescript": "^7.0.2"
   }
 }

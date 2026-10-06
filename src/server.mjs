@@ -2,10 +2,14 @@ import http from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { Store } from './backend/store.ts';
+import { api } from './backend/api.ts';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const publicRoot = resolve(root, 'public');
 const sourceRoot = resolve(root, 'src');
+const store = new Store(process.env.PAWHAUS_DB || resolve(root, '.data/pawhaus.sqlite'));
+const handleApi = api(store);
 const types = {
   '.html': 'text/html',
   '.css': 'text/css',
@@ -23,8 +27,10 @@ const types = {
 const server = http.createServer(async (req, res) => {
   try {
     const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+    if (pathname.startsWith('/api/')) { await handleApi(req, res); return; }
     let directory = publicRoot;
     let relativePath = pathname === '/' ? 'index.html' : pathname.slice(1);
+    if (pathname === '/admin' || pathname === '/admin/') relativePath = 'admin/index.html';
 
     if (pathname.startsWith('/public/')) {
       relativePath = pathname.slice('/public/'.length);
@@ -42,13 +48,13 @@ const server = http.createServer(async (req, res) => {
     }
 
     const body = await readFile(path);
-    res.writeHead(200, { 'Content-Type': types[extname(path)] || 'application/octet-stream' });
+    res.writeHead(200, { 'Content-Type': types[extname(path)] || 'application/octet-stream', 'X-Content-Type-Options': 'nosniff', 'Cache-Control': 'no-cache' });
     res.end(body);
   } catch (error) {
     res.writeHead(error instanceof URIError ? 400 : 404).end('Not found');
   }
 });
 
-server.listen(Number(process.env.PORT) || 3000, '0.0.0.0', () => {
+server.listen(Number(process.env.PORT) || 3000, process.env.HOST || '127.0.0.1', () => {
   console.log('Pawhaus ready at http://localhost:3000');
 });
