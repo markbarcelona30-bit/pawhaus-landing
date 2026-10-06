@@ -8,7 +8,7 @@ A responsive dog hotel website and a booking/staff workspace with Neon PostgreSQ
 
 [![Watch the Pawhaus booking and staff walkthrough](docs/video/poster.jpg)](docs/video/pawhaus-walkthrough.mp4)
 
-[Download the 65-second landscape video](docs/video/pawhaus-walkthrough.mp4). This captioned mockup demonstrates a fictional booking, staff confirmation, check-in, the stay calendar, and room inventory. It uses an isolated local test database; no production customer records appear. No payment is collected.
+[Download the 65-second landscape video](docs/video/pawhaus-walkthrough.mp4). This mockup includes English narration, original background music, and captions. It demonstrates a fictional booking, staff confirmation, check-in, the stay calendar, and room inventory. It uses an isolated local test database; no production customer records appear. No payment is collected.
 
 ### Landing page
 
