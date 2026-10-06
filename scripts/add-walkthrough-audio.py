@@ -1,5 +1,5 @@
-"""Create original quiet instrumental music, align Windows TTS, and mux to MP4.
-Run after render-walkthrough.py. Requires imageio-ffmpeg and Windows Zira TTS.
+"""Create original quiet instrumental music, align neural TTS, and mux to MP4.
+Run after render-walkthrough.py. Requires imageio-ffmpeg and edge-tts.
 """
 from pathlib import Path
 import sys, subprocess, wave, math, array, json, shutil
@@ -11,7 +11,8 @@ SECONDS=65
 OUT=ROOT/'docs/video'
 TMP=ROOT/'.data/video-audio'
 TMP.mkdir(parents=True,exist_ok=True)
-subprocess.run(['powershell.exe','-NoProfile','-ExecutionPolicy','Bypass','-File',str(ROOT/'scripts/narrate-walkthrough.ps1'),'-ProjectRoot',str(ROOT)],check=True)
+if '--reuse-narration' not in sys.argv:
+    subprocess.run([sys.executable,str(ROOT/'scripts/narrate-neural.py')],check=True)
 voice=array.array('f',[0])*(RATE*SECONDS)
 activity=bytearray(RATE*SECONDS)
 timing=[]

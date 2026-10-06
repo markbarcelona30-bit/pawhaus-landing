@@ -2,79 +2,79 @@
   {
     "scene": 1,
     "start": 0.3,
-    "duration": 4.24,
+    "duration": 4.38,
     "text": "Welcome to Paw Haus. A little holiday for your best friend."
   },
   {
     "scene": 2,
     "start": 5.3,
-    "duration": 3.09,
+    "duration": 3.7,
     "text": "Choose your dates and the number of dogs coming to stay."
   },
   {
     "scene": 3,
     "start": 10.3,
-    "duration": 3.06,
+    "duration": 3.79,
     "text": "See available rooms and the total price for your stay."
   },
   {
     "scene": 4,
     "start": 15.3,
-    "duration": 4.45,
+    "duration": 4.38,
     "text": "Add your dog's details, your contact information, and care notes."
   },
   {
     "scene": 5,
     "start": 20.3,
-    "duration": 3.82,
+    "duration": 4.38,
     "text": "Review the dates, room, and price before sending your request."
   },
   {
     "scene": 6,
     "start": 25.3,
-    "duration": 4.4,
+    "duration": 4.38,
     "text": "Your request is saved for staff review. No payment is taken."
   },
   {
     "scene": 7,
     "start": 30.3,
-    "duration": 3.5,
+    "duration": 4.15,
     "text": "The staff portal keeps bookings and guest care in one place."
   },
   {
     "scene": 8,
     "start": 35.3,
-    "duration": 4.45,
+    "duration": 4.38,
     "text": "See pending requests, today's arrivals, and room reservations at a glance."
   },
   {
     "scene": 9,
     "start": 40.3,
-    "duration": 3.55,
+    "duration": 4.3,
     "text": "Open each booking to review the guest's details and care needs."
   },
   {
     "scene": 10,
     "start": 45.3,
-    "duration": 2.98,
+    "duration": 3.72,
     "text": "Confirm the stay when everything is ready for their visit."
   },
   {
     "scene": 11,
     "start": 50.3,
-    "duration": 4.42,
+    "duration": 4.38,
     "text": "Check in your guest. Every status change has an activity record."
   },
   {
     "scene": 12,
     "start": 55.3,
-    "duration": 3.43,
+    "duration": 3.96,
     "text": "Use the stay calendar to see reserved nights across the month."
   },
   {
     "scene": 13,
     "start": 60.3,
-    "duration": 4.45,
-    "text": "Check room availability by date. Good stays, thoughtfully managed. Paw Haus."
+    "duration": 4.39,
+    "text": "Good stays, thoughtfully managed. Track every room with Paw Haus."
   }
 ]
